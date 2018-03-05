@@ -26,7 +26,7 @@ public class ProductService {
     public void clearCache(){}
 
 
-    //This "product" is delcares in ehcache.xml
+    //This "product" is delcares in hazelcast.xml
     @Cacheable(cacheNames="product")
     public Product getProduct(String id) {
         LOGGER.info("getProduct Executing for id {}", id);
