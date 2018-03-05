@@ -32,8 +32,8 @@ public class ProductController {
     public Product updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
         LOGGER.info("updateProduct called for id {}", id);
         product.setId(id);
-        productService.updateProduct(product);
-        return productService.getProduct(id);
+        Product updatedProduct=productService.updateProduct(product);
+        return updatedProduct;
     }
     @DeleteMapping("product/{id}")
     public String deleteProduct(@PathVariable("id") String id) {

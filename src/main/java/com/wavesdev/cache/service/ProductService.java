@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -33,10 +34,11 @@ public class ProductService {
         return product;
     }
 
-    @CacheEvict(value="product", key ="#root.args[0].id")
-    public void updateProduct(Product product) {
+    @CachePut(value="product", key ="#root.args[0].id")
+    public Product updateProduct(Product product) {
         LOGGER.info("updateProduct Executing for id {}", product.getId());
-        productDao.save(product);
+        Product updatedProduct=productDao.save(product);
+        return updatedProduct;
     }
 
     public void deleteAll(){
