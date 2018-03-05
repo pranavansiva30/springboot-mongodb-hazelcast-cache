@@ -47,4 +47,16 @@ public class ProductController {
         }
       return "SUCCESS";
     }
+    @GetMapping("product/cache/clear")
+    public String clearProductCache() {
+        LOGGER.info("delete All cache");
+        try {
+            productService.clearCache();
+        }
+        catch(Exception e){
+            return "FAIL";
+
+        }
+        return "SUCCESS";
+    }
 }
