@@ -23,6 +23,11 @@ public class HazelCastCacheConfig {
     private Integer maxIdleSeconds;
     @Value("${cache.hazelcast.config.maxSize}")
     private Integer maxSize;
+    @Value("${cache.hazelcast.config.managementCenterEnable}")
+    private Boolean managementCenterEnable;
+
+    @Value("${cache.hazelcast.config.managementCenterUrl}")
+    private String managementCenterUrl;
     private EvictionPolicy evictionPolicy=EvictionPolicy.LRU;
 
 
@@ -32,6 +37,7 @@ public class HazelCastCacheConfig {
         config.setInstanceName("hazelcast-cache");
         MapConfig mapConfig =getMapConfig(timeToLiveSeconds,evictionPolicy,maxIdleSeconds,maxSize);
         config.getMapConfigs().put("product",mapConfig);
+        config.setManagementCenterConfig(new ManagementCenterConfig().setEnabled(managementCenterEnable).setUrl(managementCenterUrl));
         return config;
     }
     private MapConfig getMapConfig(Integer timeToLiveSeconds,EvictionPolicy evictionPolicy,Integer maxIdleSeconds,Integer maxSize){
@@ -49,8 +55,7 @@ public class HazelCastCacheConfig {
     @Bean(name="hazecastManager")
     @Primary
     public CacheManager cacheManager() {
-        Config config=cacheConfig();
-        HazelcastInstance hazelcastInstance=Hazelcast.newHazelcastInstance(config);
+        HazelcastInstance hazelcastInstance = Hazelcast.getHazelcastInstanceByName("hazelcast-cache");
 
         return new HazelcastCacheManager(hazelcastInstance);
     }

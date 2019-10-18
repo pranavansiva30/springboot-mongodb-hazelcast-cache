@@ -16,26 +16,26 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-    @PostMapping("product")
+    @RequestMapping(value = "product",method = RequestMethod.POST)
     public Product addProduct(@RequestBody Product product) {
         LOGGER.info("addProduct called for name {}",product.getName());
         productService.save(product);
         return productService.getProduct(product.getId());
     }
-    @GetMapping("product/{id}")
+    @RequestMapping(value ="product/{id}",method = RequestMethod.GET)
     public Product getProduct(@PathVariable("id") String id) {
         LOGGER.info("getProduct called for id {}", id);
         return productService.getProduct(id);
     }
 
-    @PutMapping("product/{id}")
+    @RequestMapping(value ="product/{id}",method = RequestMethod.PUT)
     public Product updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
         LOGGER.info("updateProduct called for id {}", id);
         product.setId(id);
         Product updatedProduct=productService.updateProduct(product);
         return updatedProduct;
     }
-    @DeleteMapping("product/{id}")
+    @RequestMapping(value ="product/{id}",method = RequestMethod.DELETE)
     public String deleteProduct(@PathVariable("id") String id) {
         LOGGER.info("deleteProduct called for id {}", id);
         try {
@@ -47,7 +47,7 @@ public class ProductController {
         }
       return "SUCCESS";
     }
-    @GetMapping("product/cache/clear")
+    @RequestMapping(value ="product/cache/clear",method = RequestMethod.GET)
     public String clearProductCache() {
         LOGGER.info("delete All cache");
         try {
